@@ -2,8 +2,13 @@
 
 ## Topics Learned
 
-### 1. Validation Rules
-- Created a validation rule to ensure member age is 18 years or above.
+### 1.Validation Rules
+Created a validation rule on the Member object.
+Restricted users from creating members whose age is below 18 years.
+
+Displayed the error message:
+
+"Member age must be 18 years or above."
 
 ### 2. Before-Save Record-Triggered Flow
 - Triggered when a new Member record is created.
