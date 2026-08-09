@@ -1,0 +1,402 @@
+Salesforce Developer Bridge Program
+Day 2 — Self-Learning Track
+
+Name: JINUGU NIKITHA
+Technology: Salesforce Development / Apex / LWC
+Day: Day 2
+
+1. Apex Collections
+Objective
+
+Learn and practice the three important Apex collection types:
+
+List
+Set
+Map
+
+The PDF asks us to create three collection programs in Execute Anonymous.
+
+Task 1 — List
+Requirement
+
+Create a List<String> containing 5 city names and print each city in uppercase.
+
+Code
+List<String> cities = new List<String>{
+    'Hyderabad',
+    'Bhimavaram',
+    'Vijayawada',
+    'Visakhapatnam',
+    'Chennai'
+};
+
+for(String city : cities) {
+    System.debug(city.toUpperCase());
+}
+Expected Output
+HYDERABAD
+BHIMAVARAM
+VIJAYAWADA
+VISAKHAPATNAM
+CHENNAI
+Screenshot to submit
+
+Take screenshot showing:
+
+Execute Anonymous code + Debug Log output
+
+The PDF specifically requires a screenshot of the collection code snippets and their output.
+
+2. Set
+Objective
+
+Use a Set<Id> from a SOQL query so duplicate IDs are automatically removed.
+
+Code
+Set<Id> memberIds = new Set<Id>();
+
+for(Member__c member : [
+    SELECT Id
+    FROM Member__c
+]) {
+    memberIds.add(member.Id);
+}
+
+System.debug('Number of unique Members: ' + memberIds.size());
+Concept
+
+A Set stores unique values.
+
+List → Allows duplicates
+Set  → Does not allow duplicates
+Expected Output
+Number of unique Members: <number>
+
+The exact number depends on the records currently present in your Salesforce org. The PDF says the Set size should equal the number of distinct records in the org.
+
+3. Map
+Objective
+
+Create a Map<Id, Member__c> from SOQL and retrieve a record using its Id.
+
+Code
+Map<Id, Member__c> memberMap = new Map<Id, Member__c>(
+    [SELECT Id, Name FROM Member__c]
+);
+
+for(Id memberId : memberMap.keySet()) {
+    Member__c member = memberMap.get(memberId);
+
+    System.debug(
+        'Member Id: ' + member.Id +
+        ' | Member Name: ' + member.Name
+    );
+
+    break;
+}
+Concept
+
+A Map stores data in key-value pairs.
+
+Key       → Id
+Value     → Member record
+
+The PDF specifically asks for a Map lookup that returns the correct field value rather than null or an error.
+
+4. Governor Limits & Bulkification
+Objective
+
+Understand why Salesforce code must be bulkified.
+
+The PDF identifies bulkification as the most important section of Day 2 and asks us to deliberately create a bad trigger and then fix it.
+
+5. Bad Trigger — SOQL Inside Loop
+Code
+trigger MemberBadTrigger on Member__c (after insert) {
+
+    for(Member__c member : Trigger.new) {
+
+        List<Member__c> members = [
+            SELECT Id, Name
+            FROM Member__c
+            WHERE Id = :member.Id
+        ];
+
+        System.debug(members);
+    }
+}
+Why this is bad
+
+The SOQL query is executed inside the loop.
+
+If 200 records are inserted:
+
+200 records
+   ↓
+Loop runs 200 times
+   ↓
+SOQL runs 200 times
+   ↓
+Governor Limit exceeded
+
+Salesforce has governor limits, so this design is not production-safe.
+
+The PDF asks you to insert around 200+ records and capture the governor-limit failure.
+
+Screenshot
+
+Capture:
+
+Governor Limit Error
+
+The PDF gives "Too many SOQL queries: 101" as the example failure to look for.
+
+6. Fixed / Bulkified Version
+
+Instead of querying inside the loop, collect IDs first and perform SOQL once.
+
+Code
+trigger MemberBulkTrigger on Member__c (after insert) {
+
+    Set<Id> memberIds = new Set<Id>();
+
+    for(Member__c member : Trigger.new) {
+        memberIds.add(member.Id);
+    }
+
+    List<Member__c> members = [
+        SELECT Id, Name
+        FROM Member__c
+        WHERE Id IN :memberIds
+    ];
+
+    for(Member__c member : members) {
+        System.debug('Member Name: ' + member.Name);
+    }
+}
+Bulkified Flow
+Trigger.new
+     ↓
+Collect IDs into Set
+     ↓
+ONE SOQL query
+     ↓
+Process records
+Expected Result
+
+200+ records should process without the governor-limit error. The PDF explicitly asks for a screenshot showing the successful fixed version.
+
+Screenshots
+
+Submit both:
+
+❌ Bad trigger → Governor Limit Error
+✅ Bulkified trigger → Successful execution
+7. Asynchronous Apex — @future
+Objective
+
+Create a simple @future method that:
+
+Accepts a record Id
+Queries the record
+Updates one field
+Executes asynchronously
+
+The PDF requires checking Setup → Apex Jobs afterward to confirm that the asynchronous job ran.
+
+Apex Class
+public class MemberFutureService {
+
+    @future
+    public static void updateMember(Id memberId) {
+
+        Member__c member = [
+            SELECT Id, Name
+            FROM Member__c
+            WHERE Id = :memberId
+            LIMIT 1
+        ];
+
+        member.Name = member.Name + ' Updated';
+
+        update member;
+    }
+}
+Execute Anonymous
+
+Use an actual Member Id from your org:
+
+Member__c member = [
+    SELECT Id
+    FROM Member__c
+    LIMIT 1
+];
+
+MemberFutureService.updateMember(member.Id);
+Verify
+
+Go to:
+
+Setup → Apex Jobs
+
+You should see the asynchronous job there.
+
+The PDF specifically asks for:
+
+Screenshot of @future method
+Screenshot of Apex Jobs entry
+Written comparison of Future vs Queueable vs Batch.
+8. Future vs Queueable vs Batch Apex
+Feature	Future	Queueable	Batch
+Execution	Asynchronous	Asynchronous	Asynchronous
+Suitable for	Simple background operations	More complex async jobs	Large data volumes
+Parameters	Primitive types / collections	Can use class variables / objects	Processes records in batches
+Job monitoring	Apex Jobs	Apex Jobs	Apex Jobs
+Best use	Simple async update	Complex background processing	Thousands/millions of records
+Interview Answer
+
+Future Apex: Used to execute simple operations asynchronously.
+
+Queueable Apex: Used for more complex asynchronous processing and provides better control than Future.
+
+Batch Apex: Used when processing very large numbers of records in manageable batches.
+
+9. LWC — Parent to Child Communication
+Objective
+
+Create two Lightning Web Components.
+
+The first requirement is:
+
+Parent passes a record Id to Child using a public @api property, and Child displays a field from that record.
+
+Component Structure
+Parent Component
+       ↓
+passes recordId
+       ↓
+Child Component
+       ↓
+displays Member field
+Parent JS
+import { LightningElement } from 'lwc';
+
+export default class MemberParent extends LightningElement {
+
+    memberId = 'YOUR_MEMBER_RECORD_ID';
+
+}
+Parent HTML
+<template>
+
+    <lightning-card title="Parent Component">
+
+        <c-member-child
+            record-id={memberId}>
+        </c-member-child>
+
+    </lightning-card>
+
+</template>
+Child JS
+import { LightningElement, api } from 'lwc';
+
+export default class MemberChild extends LightningElement {
+
+    @api recordId;
+
+}
+
+The important concept here is:
+
+Parent
+  ↓
+@api property
+  ↓
+Child
+10. LWC — Child to Parent Communication
+
+The second requirement is the opposite direction:
+
+Child
+  ↓
+Custom Event
+  ↓
+Parent
+  ↓
+Updates screen
+
+The PDF specifically asks for a button in the child that fires a custom event, with the parent listening and updating something on screen.
+
+Child JS
+import { LightningElement, api } from 'lwc';
+
+export default class MemberChild extends LightningElement {
+
+    @api recordId;
+
+    handleClick() {
+
+        const event = new CustomEvent('memberupdate', {
+            detail: {
+                message: 'Child button was clicked'
+            }
+        });
+
+        this.dispatchEvent(event);
+    }
+}
+Child HTML
+<template>
+
+    <lightning-card title="Child Component">
+
+        <lightning-button
+            label="Send Message"
+            onclick={handleClick}>
+        </lightning-button>
+
+    </lightning-card>
+
+</template>
+Parent HTML
+<template>
+
+    <lightning-card title="Parent Component">
+
+        <c-member-child
+            record-id={memberId}
+            onmemberupdate={handleMemberUpdate}>
+        </c-member-child>
+
+        <p>{message}</p>
+
+    </lightning-card>
+
+</template>
+Parent JS
+import { LightningElement } from 'lwc';
+
+export default class MemberParent extends LightningElement {
+
+    memberId = 'YOUR_MEMBER_RECORD_ID';
+
+    message = 'Waiting for child...';
+
+    handleMemberUpdate(event) {
+
+        this.message = event.detail.message;
+
+    }
+}
+Expected Result
+
+When the child button is clicked:
+
+Child Button
+     ↓
+Custom Event
+     ↓
+Parent receives event
+     ↓
+Parent screen changes
