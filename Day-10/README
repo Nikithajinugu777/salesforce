@@ -1,0 +1,113 @@
+LWC Architecture – Component Communication, Forms, LDS and Reusable Components
+1. Introduction
+Lightning Web Components (LWC) are reusable components used to build user interfaces on the Salesforce platform. As an application becomes larger, it is not good practice to put all functionality into a single component.
+A good LWC application consists of multiple focused components. Each component has a clear responsibility and communicates with other components through well-defined communication patterns.
+The main goal of LWC architecture is:
+Focused Components → Clear Communication → One Coherent Application
+2. LWC Component Architecture
+LWC Component Architecture describes how different Lightning Web Components are organized and how they work together as one application.
+For example, a Student Placement Portal can contain:
+StudentPortal
+│
+├── StudentSummary
+│
+├── StudentProfile
+│
+├── EligibleJobs
+│   └── JobCard
+│
+├── MyApplications
+│   └── ApplicationCard
+│
+└── OfferSummary
+Each component has a specific responsibility. For example:
+StudentSummary – displays student information.
+StudentProfile – allows the student to update profile details.
+EligibleJobs – displays jobs for which the student is eligible.
+JobCard – displays individual job information.
+MyApplications – displays applications submitted by the student.
+ApplicationCard – displays details of an individual application.
+OfferSummary – displays offer information.
+
+This architecture makes the application easier to understand, maintain and extend.
+
+3. Component Communication
+Components need to communicate with each other when they work together.
+There are two important communication directions:
+Parent → Child
+Parent
+  |
+  | Data
+  ↓
+Child
+
+The parent sends information to the child.
+
+Child → Parent
+Child
+  |
+  | Event
+  ↓
+Parent
+
+The child informs the parent that something happened.
+4. Parent-to-Child Communication
+Parent-to-child communication is used when a parent component has information that a child component needs.
+In LWC, this can be achieved using the @api decorator.
+Parent JavaScript
+selectedJob;
+Child JavaScript
+@api job;
+Parent HTML
+<c-job-details job={selectedJob}></c-job-details>
+Here:
+selectedJob belongs to the parent.
+job is a public property of the child.
+The parent passes selectedJob to the child.
+The child receives the value through @api.
+The child does not need to retrieve the same information again if the parent already has it.
+Definition
+Parent-to-child communication is the process of passing data from a parent LWC to a child LWC using public properties exposed with @api.
+5. Child-to-Parent Communication
+Child-to-parent communication is required when a child component knows that something happened and the parent needs to respond.
+In LWC, the child uses Custom Events.
+Example:
+this.dispatchEvent(
+    new CustomEvent('viewdetails', {
+        detail: {
+            jobId: this.job.Id
+        }
+    })
+);
+The parent listens for the event:
+<c-job-card
+    job={job}
+    onviewdetails={handleViewDetails}>
+</c-job-card>
+The child reports the event, while the parent decides what action should be taken.
+Definition
+Child-to-parent communication is the process of sending information from a child component to its parent using custom events.
+6. Why Should a Child Not Directly Modify Parent State?
+A child should not directly manipulate the state of its parent.
+If a child directly modifies:
+Selected job
+Application state
+Filters
+Navigation
+Notifications
+
+the components become tightly coupled.
+
+Instead, the recommended pattern is:
+
+Child
+  ↓
+Reports Event
+  ↓
+Parent
+  ↓
+Decides What To Do
+
+Therefore:
+
+Children report events. Parents coordinate behaviour.
