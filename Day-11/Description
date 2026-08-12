@@ -1,0 +1,40 @@
+Salesforce APIs:
+What is an API?
+An API (Application Programming Interface) is a defined interface or contract that allows two software systems to communicate with each other using agreed rules, data formats, requests, and responses.
+Salesforce                  External API                         Salesforce 
+                   Request                            Response
+Real time Example:  Imagine a restaurant. You are the customer. The kitchen is the internal system. The waiter is the interface between you and the kitchen. You do not enter the kitchen. You do not need to know how the chef prepares the food. You communicate through the agreed interface.
+Customer --> waiter --> Kitchen
+A REST API (Representational State Transfer Application Programming Interface) is a standardized set of rules that allows two computer programs to talk to each other over the internet using basic web commands.
+• API (Application Programming Interface): The messenger or translator that lets software application A send data to and get data from software application B.
+• REST (Representational State Transfer): The set of rules guiding how that data transfer happens over standard web protocols (HTTP).
+Method                      Typical Meaning 
+GET                             Retrieve data 
+POST                          Create/process something 
+PUT                            Replace/update a resource 
+PATCH                        Partially update a resource 
+DELETE                      Remove a resource
+What is an API Request?
+A request is the message sent by the calling system to the external system asking it to perform an operation or provide information.
+A request contains: 
+URL: URL identifies where the API request should be sent.
+HTTP Method: The method tells the external system what operation we want.
+Headers: Headers carry additional information or metadata about the request.
+Authentication: Authentication is the process of proving who is making the API request.
+Body: The request body contains the actual data being sent to the external system.
+What is an API Response?
+A response is the message returned by the external system after processing the request.
+A response contains: Status Code, Headers, Body
+Status Code: it does not say Success It returns a status code.
+•	200  –  Successful request
+•	201 – Resources Successfully created
+•	204 – Successful request, no response body
+•	400 – Bad request
+•	401 – Authentication required/failed
+•	403 – Forbidden
+•	404 – Resource not found
+•	500 – Server-side error
+What is an HTTP request?    
+An HTTP request is a message sent by a client to a server to perform an operation or retrieve information. It can contain a URL, HTTP method, headers, authentication information, and optionally a request body.
+What is an HTTP response?
+An HTTP response is the message returned by the server after processing a request. It contains a status code, headers, and optionally a response body.
