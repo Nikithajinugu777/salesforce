@@ -1,0 +1,115 @@
+Gym Management System - Project Documentation
+1. Introduction
+The Gym Management System is a Salesforce-based CRM application designed to automate gym operations. The application reduces manual work by automatically creating memberships, assigning trainers, generating workout plans, managing payments, and providing real-time dashboard analytics.
+________________________________________
+2. Objectives
+•	Automate gym member registration
+•	Reduce manual data entry
+•	Manage memberships efficiently
+•	Assign trainers automatically
+•	Track payments
+•	Monitor business performance through dashboards
+•	Improve operational efficiency
+________________________________________
+3. System Modules
+Member Module
+Stores:
+•	Personal Information
+•	Contact Details
+•	Join Date
+•	Workout Type
+•	Membership Type
+•	Assigned Trainer
+________________________________________
+Membership Module
+Stores:
+•	Membership Type
+•	Membership Fee
+•	Discount
+•	Duration
+•	Start Date
+•	End Date
+•	Status
+________________________________________
+Trainer Module
+Stores:
+•	Trainer Information
+•	Specialization
+•	Assigned Members
+________________________________________
+Workout Plan Module
+Stores:
+•	Workout Type
+•	Member
+•	Duration
+•	Active Status
+________________________________________
+Payment Module
+Stores:
+•	Membership
+•	Amount
+•	Payment Date
+________________________________________
+4. Salesforce Automation
+Apex Triggers
+Member Trigger
+Before Insert
+•	End Date Calculation
+•	Date Validation
+•	Trainer Assignment
+After Insert
+•	Membership Creation
+•	Workout Plan Creation
+________________________________________
+5. Dashboard Features
+The dashboard provides:
+•	Total Members
+•	Total Trainers
+•	Total Memberships
+•	Total Revenue
+•	Recent Members
+•	Recent Payments
+•	Membership Distribution Chart
+•	Revenue Chart (In Progress)
+________________________________________
+6. Technologies
+Backend
+•	Apex
+•	SOQL
+Frontend
+•	Lightning Web Components
+•	HTML
+•	CSS
+•	JavaScript
+Framework
+•	Salesforce Platform
+Visualization
+•	Chart.js
+Version Control
+•	Git
+•	GitHub
+________________________________________
+7. Benefits
+•	Automated workflows
+•	Reduced manual effort
+•	Real-time analytics
+•	Improved member management
+•	Better payment tracking
+•	Faster trainer allocation
+•	Centralized CRM platform
+________________________________________
+8. Future Scope
+•	Attendance Management
+•	QR Code Payments
+•	Mobile Responsive Dashboard
+•	Email Notifications
+•	Membership Renewal Automation
+•	AI-based Workout Recommendations
+•	Reports & Analytics
+•	Export to Excel/PDF
+•	Role-Based Dashboard
+•	Performance Monitoring
+________________________________________
+9. Conclusion
+The Gym Management System demonstrates how Salesforce CRM can be customized using Apex, Lightning Web Components, automation, and interactive dashboards to solve real-world business problems. The project combines CRM functionality, business process automation, and modern UI components to create an efficient and scalable gym management solution while providing valuable insights through real-time analytics.
+
