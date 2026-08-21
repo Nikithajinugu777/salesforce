@@ -1,0 +1,238 @@
+Day 9 — Salesforce Flow Automation
+📌 Overview
+On Day 9 of Salesforce training, I learned and implemented Salesforce Flow Builder to automate business processes in the Gym Management System.
+
+I worked with different types of Flows including:
+
+Screen Flow
+Record-Triggered Flow
+Scheduled-Triggered Flow
+Autolaunched Flow
+I also practiced Flow elements such as:
+
+Get Records
+Create Records
+Update Records
+Delete Records
+Assignment
+Formula Resources
+Variables
+Choice Resources
+Screen Components
+Debugging and Activation
+🎯 Learning Objectives
+Understand Salesforce Flow Builder.
+Understand different types of Flows.
+Create user-interactive Screen Flows.
+Automate processes using Record-Triggered Flows.
+Run automation on a daily schedule using Scheduled Flows.
+Retrieve Salesforce records using Get Records.
+Create and update related records.
+Use Flow variables and formulas.
+Use Assignments to modify record values.
+Debug and activate Flows.
+🔹 1. Screen Flow
+Definition
+A Screen Flow is a Flow that provides a user interface and allows users to enter information and interact with the business process.
+
+Gym Management Implementation
+I created Screen Flows for:
+
+Gym-Renew-Membership
+Used to renew a member's membership.
+
+Process:
+
+Member Record → Renew Membership Button → Select New Membership Plan → Select Start Date → Calculate Membership Details → Update Member Record → Update Related Membership Record → Display Success Message
+
+Gym-ShowMembers
+Used to display member information through a user-facing Flow.
+
+Gym-PaymentDetails
+Used to collect and process payment-related information.
+
+🔹 2. Record-Triggered Flow
+Definition
+A Record-Triggered Flow automatically runs when a Salesforce record is created, updated, or deleted.
+
+Gym Management Implementation
+Example:
+
+When a new Member is created:
+
+Member Created → Flow Trigger → Perform Required Automation → Update/Create Related Records
+
+This type of automation is useful when the process should happen automatically without requiring the user to click a button.
+
+🔹 3. Scheduled-Triggered Flow
+Definition
+A Scheduled-Triggered Flow runs automatically at a specified date, time, or frequency.
+
+Gym Management Implementation
+I implemented scheduled automation for membership expiry.
+
+Example:
+
+Every Day → Find Members whose End Date has expired → Process Expired Members → Update/Delete records as required
+
+This demonstrates how Salesforce can perform background automation without requiring a user to manually start the process.
+
+🔹 4. Autolaunched Flow
+Definition
+An Autolaunched Flow runs in the background without displaying screens to the user.
+
+Gym Management Implementation
+I created Autolaunched Flows for background processes such as:
+
+Gym-Delete Record
+Gym-Expiry Alert
+Gym-Owner Alert
+Gym-Welcome Mail
+These Flows can be called by other automation or actions.
+
+🔹 5. Flow Elements Practiced
+Get Records
+Used to retrieve Salesforce records.
+
+Example:
+
+Find a Member based on:
+
+Member ID
+End Date
+Membership Type
+Create Records
+Used to create new Salesforce records.
+
+Example:
+
+Create a Membership record after a new Member is registered.
+
+Update Records
+Used to modify existing Salesforce records.
+
+Example:
+
+Update:
+
+Membership Type
+Join Date
+End Date
+Membership Fee
+Status
+Delete Records
+Used to remove Salesforce records.
+
+Example:
+
+Process expired Member records based on business requirements.
+
+Assignment
+Used to assign values to variables or record fields.
+
+Example:
+
+Member Membership Type
+Selected New Plan
+
+Member Join Date
+Selected Start Date
+
+🔹 6. Flow Variables
+I practiced creating variables to store values during Flow execution.
+
+Examples:
+
+MemberId
+CurrentPlan
+NewPlan
+StartDate
+EndDate
+NewFee
+NewDiscount
+Variables allow information to be passed between different Flow elements.
+
+🔹 7. Formula Resources
+I used formulas to calculate values dynamically.
+
+Examples:
+
+Membership Duration
+End Date - Start Date
+
+Membership Fee
+Monthly → ₹1000 Quarterly → ₹2900 Half Yearly → ₹5500 Yearly → ₹11000
+
+Discount
+Monthly → 10% Quarterly → 15% Half Yearly → 20% Yearly → 25%
+
+Current Date
+TODAY()
+
+These formulas were used to implement business logic inside the Gym Management System.
+
+🔹 8. Flow Logic
+I practiced controlling Flow execution using:
+
+Conditions
+Decisions
+Assignments
+Formulas
+Variables
+Example:
+
+If Membership Type = Monthly → Fee = ₹1000 → Discount = 10%
+
+If Membership Type = Quarterly → Fee = ₹2900 → Discount = 15%
+
+If Membership Type = Half Yearly → Fee = ₹5500 → Discount = 20%
+
+If Membership Type = Yearly → Fee = ₹11000 → Discount = 25%
+
+🔹 9. Flow Debugging
+I practiced debugging Flows before activation.
+
+Debugging helped me verify:
+
+Input values
+Record values
+Variable values
+Formula results
+Record updates
+Flow execution path
+After successful testing, the Flows were activated.
+
+🏋️ Gym Management System Automation
+The following Flows were implemented during this phase:
+
+Flow	Type	Purpose
+Gym-Delete Record	Autolaunched	Handles record deletion
+Gym-Expiry Alert	Autolaunched	Handles membership expiry notification
+Gym-Owner Alert	Autolaunched	Notifies gym owner about relevant events
+Gym-PaymentDetails	Screen Flow	Collects/processes payment information
+Gym-Renew-Membership	Screen Flow	Renews a member's membership
+Gym-ShowMembers	Screen Flow	Displays member information
+Gym-Welcome Mail	Autolaunched	Sends welcome communication
+🔄 Overall Flow Architecture
+                    GYM MANAGEMENT SYSTEM
+                            |
+             +--------------+--------------+
+             |              |              |
+             ↓              ↓              ↓
+        Screen Flow   Record-Triggered   Scheduled
+             |              |              |
+             ↓              ↓              ↓
+        User Input      Record Event    Daily/Time
+             |              |              |
+             +--------------+--------------+
+                            |
+                            ↓
+                   Flow Business Logic
+                            |
+             +--------------+--------------+
+             |              |              |
+             ↓              ↓              ↓
+        Get Records   Update Records   Create Records
+                            |
+                            ↓
+                    Salesforce Database
