@@ -1,0 +1,42 @@
+Day 6 – Apex Triggers & Business Automation
+Objective
+
+The objective of Day 6 was to implement event-driven automation in the Gym Management System using Apex Triggers and Trigger Handlers. The focus was on automating business processes, validating data, managing related records, and improving the overall efficiency of the Salesforce application.
+
+Activities Completed
+
+During Day 6, the following automation features were implemented:
+
+Implemented a Member Trigger using before insert, before update, and after insert events.
+Automatically calculated the Membership End Date based on the selected Membership Type.
+Added validation to prevent members from selecting past joining dates.
+Automatically created a Membership record whenever a new Member was registered.
+Automatically generated a Workout Plan record for newly created Members.
+Calculated Membership Duration using the Start Date and End Date.
+Automatically assigned Membership Fee and Discount based on Membership Type.
+Implemented Trainer salary automation based on Workout Type using before triggers.
+Configured required fields for Member and Trainer objects to improve data validation.
+Created a Payment automation structure linked with Membership records.
+Fixed trigger execution issues such as duplicate record creation and incorrect trigger context handling.
+Trigger Handler Architecture
+
+The Trigger Handler pattern was used to separate the business logic from the trigger events. This makes the Apex implementation more organized, maintainable, and easier to extend.
+
+Key Concepts Learned
+Apex Triggers
+Trigger Context Variables
+Before vs After Triggers
+Trigger Handler Pattern
+Date Calculations
+DML Operations
+Business Automation
+Record Relationships
+Validation Techniques
+Bulkified Trigger Design
+Practical Implementation
+
+The screenshots included in the Day 6 document demonstrate the created Member, Membership, Payment, and Workout Plan records, along with the Apex automation used to manage these records. The final screenshot also shows the payment automation logic where payment details are generated based on membership information.
+
+Learning Outcome
+
+Successfully gained practical experience in implementing Apex Triggers and Trigger Handler architecture for real-world business automation. Learned how to automate record creation, perform calculations, validate data, manage relationships between Salesforce objects, and implement bulkified trigger logic. This strengthened the backend development capabilities of the Gym Management System.
