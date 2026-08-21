@@ -1,0 +1,58 @@
+Day 7 – Reports & Dashboards Module
+Objective
+
+The objective of Day 7 was to understand how Salesforce Reports and Dashboards can be used to analyze business data without writing Apex code. Reports provide data in tabular and summarized formats, while Dashboards present important information visually to support better decision-making.
+
+Topics Covered
+1. Report Types
+
+Created report types based on the custom objects used in the Gym Management System and understood how report types define the data source available for creating reports.
+
+2. Tabular Reports
+
+Created tabular reports to display Member records in a simple table format. The report provides an organized view of member information for easy reference.
+
+3. Summary Reports
+
+Created summary reports by grouping records based on specific fields. This helped analyze and compare grouped business data within the Gym Management System.
+
+4. Matrix Reports
+
+Explored Matrix Reports, which allow records to be grouped using both rows and columns. This makes it possible to compare multiple categories of information simultaneously.
+
+5. Joined Reports
+
+Explored Joined Reports and learned how multiple report blocks can be combined into a single report for broader data analysis.
+
+6. Report Filters
+
+Applied report filters to display only relevant records. Filters such as Active Members and Membership Type were used to refine the report results.
+
+7. Charts
+
+Added charts to reports to represent business data graphically. Charts make it easier to identify patterns and understand data visually.
+
+8. Dashboards
+
+Created a Gym Dashboard using different report components. The dashboard displays key metrics through charts, tables, and summary widgets, providing a centralized view of the Gym Management System data.
+
+Practical Implementation
+
+During the hands-on implementation, multiple reports were created, including:
+
+Gym Tabular Report
+Gym Summary Report
+Gym Chart
+Filtered Membership Report
+
+The screenshots in the document demonstrate the reports and the final Gym Dashboard, which combines multiple report components into a single visual interface.
+
+The final dashboard provides:
+
+Member data in tabular format
+Membership distribution through a chart
+Filtered membership information
+Visual summary of gym data
+Learning Outcome
+
+Successfully gained practical knowledge of Salesforce Reports and Dashboards and learned how to convert Salesforce records into meaningful business insights using report types, filters, summaries, charts, and dashboard components. This improved the analytical and reporting capabilities of the Gym Management System.
